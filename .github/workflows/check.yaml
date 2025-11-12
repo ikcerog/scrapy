@@ -1,0 +1,39 @@
+name: Page Watcher
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # every hour
+  workflow_dispatch:      # allow manual runs from the Actions tab
+
+permissions:
+  contents: write         # needed so the bot can commit feed/snapshots
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Run checker
+        run: python checker.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "Update feed & snapshots [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+ 
