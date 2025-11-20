@@ -1,0 +1,14 @@
+[
+  {
+    "id": "rocket-news",
+    "url": "https://www.rocketcompanies.com/news/",
+    "title": "Rocket Companies — Newsroom",
+    "selector": "#main"   // optional: scope to main content
+  },
+  {
+    "id": "uwm",
+    "title": "UWM",
+    "url": "https://www.uwm.com/press-releases",
+    "selector": ".MuiContainer-root"
+  }
+]
